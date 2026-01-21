@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
 using Service.Contracts;
-using System;
 
 namespace CompanyEmployees.Extensions
 {
