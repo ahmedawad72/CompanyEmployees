@@ -9,8 +9,8 @@ namespace CompanyEmployees
         public MappingProfile()
         {
             CreateMap<Company, CompanyDto>()
-               .ForCtorParam("FullAddress",
-                          opt => opt.MapFrom(src => string.Join(", ", src.Address, src.Country)));
+               .ForMember(c => c.FullAddress,
+               opt => opt.MapFrom(src => string.Join(' ', src.Address, src.Country)));
 
             CreateMap<Employee, EmployeeDto>();
         }
