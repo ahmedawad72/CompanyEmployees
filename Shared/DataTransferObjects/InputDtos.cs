@@ -20,5 +20,18 @@ namespace Shared.DataTransferObjects
         public int Age { get; init; }     
         public string Position { get; init; } = default!;
     }
+    public record EmployeeForUpdateDto
+    {
+        public string Name { get; init; } = default!;
+        public int Age { get; init; }
+        public string Position { get; init; } = default!;
+    }
+    public record class CompanyForUpdateDto
+    {
+        public string Name { get; init; } = default!;
+        public string Address { get; init; } = default!;
+        public string Country { get; init; } = default!;
+        public IEnumerable<EmployeeForUpdateDto> Employees { get; init; } = Array.Empty<EmployeeForUpdateDto>();
+    }
 }
     

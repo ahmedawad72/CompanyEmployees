@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using System.Runtime.InteropServices;
 namespace Service
 { 
     internal sealed class EmployeeService : IEmployeeService
@@ -61,6 +62,28 @@ employeeForCreation, bool trackChanges)
 
             return employeeToReturn;
         }
-
+        public void DeleteEmployeeForCompany(Guid companyId, Guid id , bool trackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId,trackChanges);
+            if(company is null)
+                throw new CompanyNotFoundException(companyId);
+            var employeeForCompany = _repository.Employee.GetEmployee(companyId, id, trackChanges);
+            if (employeeForCompany is null)
+                throw new EmployeeNotFoundException(id);
+            _repository.Employee.DeleteEmployee(employeeForCompany);
+            _repository.Save();
+        }
+        public void UpdateEmployeeForCompany(Guid companyId, Guid id, EmployeeForUpdateDto employeeForUpdate, bool empTrackChanges, bool ComTrackChanges)
+        {
+            var company = _repository.Company.GetCompany(companyId, ComTrackChanges);
+            if (company is null)
+                throw new CompanyNotFoundException(companyId);
+            var employeeEntity = _repository.Employee.GetEmployee(companyId, id, empTrackChanges);
+            if (employeeEntity is null)
+                throw new EmployeeNotFoundException(id);
+            _mapper.Map(employeeForUpdate, employeeEntity);
+            _repository.Save();
+        }
     }
+
 }

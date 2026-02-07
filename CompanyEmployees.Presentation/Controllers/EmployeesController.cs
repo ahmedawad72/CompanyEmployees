@@ -11,10 +11,10 @@ namespace CompanyEmployees.Presentation.Controllers
     {
         private readonly IServiceManager _service;
         public EmployeesController(IServiceManager service)
-        { 
+        {
             _service = service;
         }
-        
+
         [HttpGet]
         public IActionResult GetEmployeesForCompany(Guid companyId)
         {
@@ -43,6 +43,20 @@ namespace CompanyEmployees.Presentation.Controllers
            employeeToReturn.Id
             },
              employeeToReturn);
+        }
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteEmployeeForCompany(Guid companyId, Guid id)
+        {
+            _service.EmployeeService.DeleteEmployeeForCompany(companyId, id, trackChanges: false);
+            return NoContent();
+        }
+        [HttpPut("{id:guid}")]
+        public IActionResult UpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDto employeeForUpdate)
+        {
+            if (employeeForUpdate is null)
+                return BadRequest("EmployeeForUpdateDto object is null");
+            _service.EmployeeService.UpdateEmployeeForCompany(companyId, id, employeeForUpdate, empTrackChanges: true, ComTrackChanges: false);
+            return NoContent();
         }
     }
 }
