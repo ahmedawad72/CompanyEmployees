@@ -21,18 +21,23 @@ namespace CompanyEmployees.Presentation.Controllers
             var employees = _service.EmployeeService.GetEmployees(companyId, trackChanges: false);
             return Ok(employees);
         }
+    
         [HttpGet("{id:guid}", Name = "GetEmployeeForCompany")]
         public IActionResult GetEmployeeForCompany(Guid companyId, Guid id)
         {
             var employee = _service.EmployeeService.GetEmployee(companyId, id, trackChanges: false);
             return Ok(employee);
         }
+       
         [HttpPost]
         public IActionResult CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee)
         {
             if (employee is null)
                 return BadRequest("EmployeeForCreationDto object is null");
-
+           
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+          
             var employeeToReturn =
            _service.EmployeeService.CreateEmployeeForCompany(companyId, employee, trackChanges: false);
 
@@ -44,17 +49,23 @@ namespace CompanyEmployees.Presentation.Controllers
             },
              employeeToReturn);
         }
+        
         [HttpDelete("{id:guid}")]
         public IActionResult DeleteEmployeeForCompany(Guid companyId, Guid id)
         {
             _service.EmployeeService.DeleteEmployeeForCompany(companyId, id, trackChanges: false);
             return NoContent();
         }
+        
         [HttpPut("{id:guid}")]
         public IActionResult UpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDto employeeForUpdate)
         {
             if (employeeForUpdate is null)
                 return BadRequest("EmployeeForUpdateDto object is null");
+            
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+          
             _service.EmployeeService.UpdateEmployeeForCompany(companyId, id, employeeForUpdate, empTrackChanges: true, ComTrackChanges: false);
             return NoContent();
         }
