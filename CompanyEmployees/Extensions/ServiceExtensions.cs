@@ -8,7 +8,7 @@ using Service.Contracts;
 namespace CompanyEmployees.Extensions
 {
     public static class ServiceExtensions
-    {
+    {   
         // extension method is a static method of a static class and the first parameter is 'this'
         // and this represents the data type of the object which will be using that extension method
         // here we are extending IServiceCollection to add CORS configuration

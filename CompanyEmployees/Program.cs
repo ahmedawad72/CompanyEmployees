@@ -1,11 +1,13 @@
+using CompanyEmployees.Presentation;
+using CompanyEmployees.Presentation.ActionFilters;
 using CompanyEmployees.Extensions;
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 
-var builder = WebApplication.CreateBuilder(args);
 
+var builder = WebApplication.CreateBuilder(args);
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
 // Add services to the container.
 builder.Services.ConfigureCors();
@@ -15,6 +17,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureSqlContext(builder.Configuration);    
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<ValidationFilterAttribute>();
 
 // [ApiController] attribute auto handle some cases of errors 
 // we dont need it to show the error message created by dontet 
@@ -45,7 +48,7 @@ builder.Services.AddControllers(config =>
     config.RespectBrowserAcceptHeader = true;       //chapter 7 content negotiation.
     config.ReturnHttpNotAcceptable = true;
 }).AddXmlDataContractSerializerFormatters()
-    .AddApplicationPart( typeof(CompanyEmployees.Presentation.AssemblyReference).Assembly);
+    .AddApplicationPart( typeof(AssemblyReference).Assembly);
 
 var app = builder.Build();
 var logger = app.Services.GetRequiredService<ILoggerManager>();
