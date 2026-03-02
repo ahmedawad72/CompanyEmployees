@@ -22,6 +22,10 @@ namespace Service
         public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync
             (Guid companyId,EmployeeParameters employeeParameters ,bool trackChanges)
         {
+            if(!employeeParameters.ValidAgeRange)
+            {
+                throw new MaxAgeRangeBadRequestException();
+            }
             await CheckIfCompanyExists(companyId, trackChanges);
 
             var employeesWithMetaData =await  _repository.Employee.GetEmployeesAsync(companyId,employeeParameters ,trackChanges);  
@@ -44,7 +48,7 @@ namespace Service
             return employeeDto;
         }
         public async Task <EmployeeDto> CreateEmployeeForCompanyAsync(Guid companyId, EmployeeForCreationDto
-employeeForCreation, bool trackChanges)
+           employeeForCreation, bool trackChanges)
         {
             await CheckIfCompanyExists(companyId, trackChanges);
 
@@ -73,7 +77,9 @@ employeeForCreation, bool trackChanges)
             _mapper.Map(employeeForUpdate, employeeEntity);
             await _repository.Save();
         }
+    
         
+        // Private Methods
         private async Task CheckIfCompanyExists(Guid id, bool trackChanges)
         {
             var company = await _repository.Company.GetCompanyAsync(id, trackChanges);
