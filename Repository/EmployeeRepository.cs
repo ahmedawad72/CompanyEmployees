@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 using Shared.RequestFeatures;
 
 namespace Repository
@@ -18,6 +19,8 @@ namespace Repository
                                                && e.Age >= employeeParameters.MinAge 
                                                && e.Age <= employeeParameters.MaxAge
                                                 , trackChanges)
+                                               .FilterEmployees(employeeParameters.MinAge,employeeParameters.MaxAge)
+                                               .Search(employeeParameters.SearchTerm)
                                                .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize)
                                                .Take(employeeParameters.PageSize)
                                                .OrderBy(e => e.Name)
