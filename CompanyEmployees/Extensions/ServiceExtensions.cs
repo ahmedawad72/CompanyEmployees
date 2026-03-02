@@ -28,7 +28,7 @@ namespace CompanyEmployees.Extensions
         {
             /*
                 Instead of the AllowAnyOrigin() method which allows requests from any 
-                source, we can use the WithOrigins("https://example.com") which will 
+                source, we can use th       e WithOrigins("https://example.com") which will 
                 allow requests only from that concrete source. Also, instead of 
                 8 
                 AllowAnyMethod() that allows all HTTP methods, we can use 
@@ -40,7 +40,9 @@ namespace CompanyEmployees.Extensions
             options.AddPolicy("CorsPolicy", builder =>
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
-                       .AllowAnyHeader());
+                       .AllowAnyHeader()
+                       .WithExposedHeaders("X-Pagination")
+                       );
         });
 
 

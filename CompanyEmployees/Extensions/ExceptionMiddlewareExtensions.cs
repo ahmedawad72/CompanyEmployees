@@ -18,7 +18,7 @@ namespace CompanyEmployees.Extensions
             
                     if (contextFeature != null)
                     {
-                        context.Response.StatusCode = contextFeature.Error switch
+                        context.Response.StatusCode  = contextFeature.Error switch
                         {
                             NotFoundException => StatusCodes.Status404NotFound,
                             BadRequestException => StatusCodes.Status400BadRequest,

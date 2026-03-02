@@ -52,7 +52,7 @@ namespace CompanyEmployees.Presentation.Controllers
     
        
         [HttpPost("collection")]
-        public async Task<IActionResult> CreateCompanyCollection
+        public async Task<IActionResult> CreateCompanyCollection    
                 ([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
         {
             if (!ModelState.IsValid)
