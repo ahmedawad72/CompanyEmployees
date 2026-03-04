@@ -21,9 +21,9 @@ namespace Repository
                                                 , trackChanges)
                                                .FilterEmployees(employeeParameters.MinAge,employeeParameters.MaxAge)
                                                .Search(employeeParameters.SearchTerm)
+                                               .Sort(employeeParameters.OrderBy)
                                                .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize)
                                                .Take(employeeParameters.PageSize)
-                                               .OrderBy(e => e.Name)
                                                .ToListAsync();    
 
             var count = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges).CountAsync();

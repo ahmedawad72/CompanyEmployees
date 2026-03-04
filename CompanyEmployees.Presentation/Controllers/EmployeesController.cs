@@ -12,7 +12,7 @@ namespace CompanyEmployees.Presentation.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public EmployeesController(IServiceManager service)
+        public EmployeesController(IServiceManager service) 
         {
             _service = service;
         }
